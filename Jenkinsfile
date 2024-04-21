@@ -46,8 +46,8 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'rm -rf *.var'
-                sh 'jar -cvf Survey-0.0.1-SNAPSHOT.jar -C "src/main" .'     
-                sh 'docker build -t sagar21999/swe645assignment3:latest .'
+                sh 'jar -cvf survey0.1-0.0.1-SNAPSHOT.jar -C "src/main" .'     
+                sh 'docker build -t skm05/survey:latest .'
             }
         }
         stage('Login') {
@@ -57,12 +57,12 @@ pipeline {
         }
         stage("Push image to docker hub") {
             steps {
-                sh 'docker push sagar21999/swe645assignment3:latest'
+                sh 'docker push skm05/survey:latest'
             }
         }
         stage("deploying on k8") {
             steps {
-                sh 'kubectl set image deployment/deploy1 container-0=sagar21999/swe645assignment3:latest -n default'
+                sh 'kubectl set image deployment/deploy1 container-0=skm05/survey:latest -n default'
                 sh 'kubectl rollout restart deploy deploy1 -n default'
             }
         }
