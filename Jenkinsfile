@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'mvn clean install -DskipTests'
+                sh 'mvn clean package'
                 sh 'docker build -t skm05/survey:latest .'
             }
         }
