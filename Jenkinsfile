@@ -62,8 +62,8 @@ pipeline {
         }
         stage("deploying on k8") {
             steps {
-                sh 'kubectl set image deployment/deploy1 container-0=skm05/survey:latest -n default'
-                sh 'kubectl rollout restart deploy deploy1 -n default'
+                sh 'kubectl set image deployment/back container-0=skm05/survey:latest -n default'
+                sh 'kubectl rollout restart deploy back -n default'
             }
         }
     }
