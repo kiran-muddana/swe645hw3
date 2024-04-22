@@ -297,6 +297,7 @@
               })
               .catch((error) => console.error("Error creating survey:", error));
           }
+          document.getElementById('surveyForm').reset();
           update = false;
           surveyId = null;
         });
@@ -357,7 +358,6 @@
               if (!response.ok) {
                 throw new Error("Failed to delete survey");
               }
-              // No JSON data to parse upon successful deletion
               return;
             })
             .then(() => {
