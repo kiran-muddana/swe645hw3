@@ -21,7 +21,7 @@ pipeline {
             steps {
                 sh 'rm -rf *.var'
                 sh 'jar -cvf survey0.1-0.0.1-SNAPSHOT.jar -C "src/main" .'     
-                sh 'docker build -t skm05/survey:latest .'
+                sh 'docker build -t skm05/springdemo:latest .'
             }
         }
         stage('Login') {
@@ -31,13 +31,13 @@ pipeline {
         }
         stage("Push image to docker hub") {
             steps {
-                sh 'docker push skm05/survey:latest'
+                sh 'docker push skm05/springdemo:latest'
             }
         }
         stage("deploying on k8") {
             steps {
-                sh 'kubectl set image deployment/back container-0=skm05/survey:latest -n default'
-                sh 'kubectl rollout restart deploy back -n default'
+                sh 'kubectl set image deployment/backenddemo container-0=skm05/springdemo:latest -n default'
+                sh 'kubectl rollout restart deploy backenddemo -n default'
             }
         }
     }
