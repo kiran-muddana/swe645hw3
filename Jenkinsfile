@@ -27,7 +27,7 @@ pipeline {
         stage('Build HTML Image') {
             steps {
                 // Build the Docker image for the HTML application
-                sh 'docker build -t skm05/frontdemo:latest -f index.html .'
+                sh 'docker build -t skm05/frontdemo:latest -f Dockerfile .'
             }
         }
         stage('Login') {
@@ -50,7 +50,7 @@ pipeline {
                 sh 'kubectl set image deployment/backenddemo container-0=skm05/springdemo:latest -n default'
                 sh 'kubectl rollout restart deploy backenddemo -n default'
 
-                sh "kubectl set image deployment/frontdemo container-0=$HTML_IMAGE_TAG -n default"
+                sh "kubectl set image deployment/frontdemo container-0=skm05/frontdemo:latest -n default"
                 sh "kubectl rollout restart deploy frontdemo -n default"
             }
         }
