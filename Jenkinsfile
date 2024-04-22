@@ -24,6 +24,12 @@ pipeline {
                 sh 'docker build -t skm05/springdemo:latest .'
             }
         }
+        stage('Build HTML Image') {
+            steps {
+                // Build the Docker image for the HTML application
+                sh 'docker build -t skm05/frontdemo:latest -f index.html .'
+            }
+        }
         stage('Login') {
             steps {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
@@ -34,10 +40,18 @@ pipeline {
                 sh 'docker push skm05/springdemo:latest'
             }
         }
+        stage("Push HTML Image to Docker Hub") {
+            steps {
+                sh 'docker push skm05/frontdemo:latest'
+            }
+        }
         stage("deploying on k8") {
             steps {
                 sh 'kubectl set image deployment/backenddemo container-0=skm05/springdemo:latest -n default'
                 sh 'kubectl rollout restart deploy backenddemo -n default'
+
+                sh "kubectl set image deployment/frontdemo container-0=$HTML_IMAGE_TAG -n default"
+                sh "kubectl rollout restart deploy frontdemo -n default"
             }
         }
     }
