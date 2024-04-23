@@ -1,4 +1,3 @@
-//check
 pipeline {
     agent any
     tools {
@@ -7,7 +6,6 @@ pipeline {
     }
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
-        IMAGE_TAG = "skm05/survey:${BUILD_NUMBER}"
     }
     stages {
         stage('Maven Clean') {
